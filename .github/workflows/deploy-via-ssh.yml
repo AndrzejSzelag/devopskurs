@@ -26,6 +26,6 @@ jobs:
         sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "
           cd /home/debian/repo2/k8s &&
           git pull &&
-          kubectl apply -f k8s/deployment.yml &&
-          kubectl apply -f k8s/service.yml
+          kubectl apply -f deployment.yml &&
+          kubectl apply -f service.yml
         "

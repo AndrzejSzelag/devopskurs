@@ -24,7 +24,7 @@ jobs:
         IMAGE_NAME: yourdockeruser/nginx-app:latest
       run: |
         sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "
-          cd /home/debian/k8s &&
+          cd /home/debian/repo2/k8s &&
           git pull &&
           docker build -t $IMAGE_NAME . &&
           docker push $IMAGE_NAME

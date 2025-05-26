@@ -1,0 +1,31 @@
+name: Deploy via SSH to VPS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy NGINX on remote VPS
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout this repo (optional)
+      uses: actions/checkout@v4
+
+    - name: Install sshpass
+      run: sudo apt-get update && sudo apt-get install -y sshpass
+
+    - name: Deploy to VPS via SSH
+      env:
+        SSH_USER: debian
+        SSH_HOST: vps2.m89.pl
+        SSH_PASSWORD: ${{ secrets.VPS_PASSWORD }}
+      run: |
+        sshpass -p "$SSH_PASSWORD" ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "
+          cd /home/debian/my-k8s-app &&
+          git pull &&
+          kubectl apply -f k8s/deployment.yaml &&
+          kubectl apply -f k8s/service.yaml
+        "
